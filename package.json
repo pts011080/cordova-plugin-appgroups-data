@@ -1,0 +1,17 @@
+{
+  "name": "cordova-plugin-appgroups-data",
+  "version": "1.0.0",
+  "description": "",
+  "cordova": {
+    "id": "cordova-plugin-appgroups-data",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-ios"
+  ],
+  "author": "cmfsotelo",
+  "license": "ISC"
+}

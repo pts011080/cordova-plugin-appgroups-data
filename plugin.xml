@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-appgroups-data" version="1.0.0"
+	xmlns="http://apache.org/cordova/ns/plugins/1.0"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<name>AppGroups Data Plugin</name>
+	<description>Shared AppGroups Data Plugin for Cordova</description>
+	<author>cmfsotelo</author>
+	<keywords> cordova,App Group,CoreData,storage,ecosystem:cordova,cordova-ios</keywords>
+	<js-module name="SharedAppGroupsData" src="www/SharedAppGroupsData.js">
+		<clobbers target="cordova.plugins.SharedAppGroupsData" />
+	</js-module>
+	<preference name="APP_GROUP_NAME" />
+	<!-- Hooks -->
+	<hook src="scripts/install_prerequisites.js" type="before_plugin_install" />
+
+	<hook src="scripts/afterPrepareHook.js" type="after_prepare"/>
+	<hook src="scripts/beforePluginInstallHook.js" type="before_plugin_install" />
+	<platform name="ios">
+		<config-file parent="/*" target="config.xml">
+			<feature name="SharedAppGroupsData">
+				<param name="ios-package" value="SharedAppGroupsData" />
+			</feature>
+		</config-file>
+		<config-file target="*-Debug.plist" parent="com.apple.security.application-groups">
+			<array>
+				<string>$APP_GROUP_NAME</string>
+			</array>
+		</config-file>
+		<config-file target="*-Release.plist" parent="com.apple.security.application-groups">
+			<array>
+				<string>$APP_GROUP_NAME</string>
+			</array>
+		</config-file>
+		<config-file target="*-Info.plist" parent="GroupStorage">
+			<dict>
+				<key>groupId</key>
+				<string>$APP_GROUP_NAME</string>
+			</dict>
+		</config-file>
+
+		<header-file src="src/ios/SharedAppGroupsData.h" />
+		<source-file src="src/ios/SharedAppGroupsData.m" />
+		<hook src="scripts/iosBeforePrepareHook.js" type="before_prepare" />
+		<hook src="scripts/iosBeforePrepareHook.js" type="after_prepare" />
+		<hook src="scripts/iosBeforePrepareHook.js" type="before_compile" />
+	</platform>
+</plugin>
+
