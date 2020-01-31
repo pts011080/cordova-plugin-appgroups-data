@@ -9,9 +9,9 @@
 	<js-module name="SharedAppGroupsData" src="www/SharedAppGroupsData.js">
 		<clobbers target="cordova.plugins.SharedAppGroupsData" />
 	</js-module>
-	<preference name="APP_GROUP_NAME" />
-	<preference name="APP_GROUP_NAME2" />
-	<preference name="APP_GROUP_NAME3" />
+	<preference name="APP_GROUP_NAMEA" />
+	<preference name="APP_GROUP_NAMEB" />
+	<preference name="APP_GROUP_NAMEC" />
 	<!-- Hooks -->
 	<hook src="scripts/install_prerequisites.js" type="before_plugin_install" />
 
@@ -25,22 +25,22 @@
 		</config-file>
 		<config-file target="*-Debug.plist" parent="com.apple.security.application-groups">
 			<array>
-				<string>$APP_GROUP_NAME</string>
-				<string>$APP_GROUP_NAME2</string>
-				<string>$APP_GROUP_NAME3</string>
+				<string>$APP_GROUP_NAMEA</string>
+				<string>$APP_GROUP_NAMEB</string>
+				<string>$APP_GROUP_NAMEC</string>
 			</array>
 		</config-file>
 		<config-file target="*-Release.plist" parent="com.apple.security.application-groups">
 			<array>
-				<string>$APP_GROUP_NAME</string>
-				<string>$APP_GROUP_NAME2</string>
-				<string>$APP_GROUP_NAME3</string>
+				<string>$APP_GROUP_NAMEA</string>
+				<string>$APP_GROUP_NAMEB</string>
+				<string>$APP_GROUP_NAMEC</string>
 			</array>
 		</config-file>
 		<config-file target="*-Info.plist" parent="GroupStorage">
 			<dict>
 				<key>groupId</key>
-				<string>$APP_GROUP_NAME</string>
+				<string>$APP_GROUP_NAMEA</string>
 			</dict>
 		</config-file>
 
