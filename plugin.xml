@@ -10,6 +10,8 @@
 		<clobbers target="cordova.plugins.SharedAppGroupsData" />
 	</js-module>
 	<preference name="APP_GROUP_NAME" />
+	<preference name="APP_GROUP_NAME2" />
+	<preference name="APP_GROUP_NAME3" />
 	<!-- Hooks -->
 	<hook src="scripts/install_prerequisites.js" type="before_plugin_install" />
 
