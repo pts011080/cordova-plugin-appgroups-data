@@ -98,13 +98,13 @@ function loadProjectFile() {
 
             var pbxPath = project_files[0];
 
-            var xcodeproj = context.requireCordovaModule('xcode').project(pbxPath);
+            var xcodeproj = require('xcode').project(pbxPath);
             xcodeproj.parseSync();
 
             projectFile = {
                 'xcode': xcodeproj,
                 write: function() {
-                    var fs = context.requireCordovaModule('fs');
+                    var fs = require('fs');
 
                     var frameworks_file = path.join(iosPlatformPath(), 'frameworks.json');
                     var frameworks = {};
@@ -115,7 +115,7 @@ function loadProjectFile() {
                     fs.writeFileSync(pbxPath, xcodeproj.writeSync());
                     if (Object.keys(frameworks).length === 0) {
                         // If there is no framework references remain in the project, just remove this file
-                        context.requireCordovaModule('shelljs').rm('-rf', frameworks_file);
+                        require('shelljs').rm('-rf', frameworks_file);
                         return;
                     }
                     fs.writeFileSync(frameworks_file, JSON.stringify(this.frameworks, null, 4));
