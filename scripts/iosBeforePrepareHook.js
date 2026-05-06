@@ -9,7 +9,12 @@ var fs = require('fs');
 var ConfigXmlHelper = require('./lib/configXmlHelper.js');
 
 module.exports = function(ctx) {
-  run(ctx);
+  try {
+    run(ctx);
+  } catch (error) {
+    console.error('Error in iosBeforePrepareHook:', error instanceof Error ? error.message : String(error));
+    process.exit(1);
+  }
 };
 
 /**
