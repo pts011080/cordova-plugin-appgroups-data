@@ -5,8 +5,6 @@
  */
 
 var configParser = require('./lib/configXmlParser.js');
-var iosProjectEntitlements = require('./lib/ios/projectEntitlements.js');
-var iosProjectPreferences = require('./lib/ios/xcodePreferences.js');
 var IOS = 'ios';
 
 module.exports = function(ctx) {
@@ -46,6 +44,9 @@ function run(cordovaContext) {
  * @param {Object} cordovaContext - cordova context object
  */
 function activateGroupCapabilities(cordovaContext) {
+    // Load iOS-specific modules only when running on iOS platform
+    var iosProjectEntitlements = require('./lib/ios/projectEntitlements.js');
+    var iosProjectPreferences = require('./lib/ios/xcodePreferences.js');
 
     var groupName = configParser.getGroupName(cordovaContext);
     // modify xcode project preferences

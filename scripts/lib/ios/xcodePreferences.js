@@ -88,9 +88,16 @@ function loadProjectFile() {
             platform_ios = context.requireCordovaModule('cordova-lib/src/plugman/platforms/ios');
             projectFile = platform_ios.parseProjectFile(iosPlatformPath());
         } catch (e) {
-            // try cordova 7 structure
-            // Then cordova 7.0
-            var project_files = context.requireCordovaModule('glob').sync(path.join(iosPlatformPath(), '*.xcodeproj', 'project.pbxproj'));
+            // try cordova 7+ structure using native fs instead of glob
+            // (context.requireCordovaModule('glob') may fail with ERR_PACKAGE_PATH_NOT_EXPORTED in Node.js v22)
+            var fs = require('fs');
+            var iosPlatPath = iosPlatformPath();
+            var iosDirEntries;
+            try { iosDirEntries = fs.readdirSync(iosPlatPath); } catch (e) { iosDirEntries = []; }
+            var project_files = iosDirEntries
+                .filter(function(f) { return f.slice(-9) === '.xcodeproj'; })
+                .map(function(dir) { return path.join(iosPlatPath, dir, 'project.pbxproj'); })
+                .filter(function(f) { try { fs.accessSync(f); return true; } catch(e) { return false; } });
 
             if (project_files.length === 0) {
                 throw new Error('does not appear to be an xcode project (no xcode project file)');
