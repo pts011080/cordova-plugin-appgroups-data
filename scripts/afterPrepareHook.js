@@ -10,7 +10,12 @@ var iosProjectPreferences = require('./lib/ios/xcodePreferences.js');
 var IOS = 'ios';
 
 module.exports = function(ctx) {
-    run(ctx);
+    try {
+        run(ctx);
+    } catch (error) {
+        console.error('Error in afterPrepareHook:', error instanceof Error ? error.message : String(error));
+        process.exit(1);
+    }
 };
 
 /**
