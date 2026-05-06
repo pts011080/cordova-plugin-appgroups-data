@@ -38,18 +38,23 @@ function createPluginInstalledFlag(ctx) {
 // endregion
 
 module.exports = function(ctx) {
-  if (isInstallationAlreadyPerformed(ctx)) {
-    return;
+  try {
+    if (isInstallationAlreadyPerformed(ctx)) {
+      return;
+    }
+
+    console.log('Installing dependency packages: ');
+    console.log(JSON.stringify(pluginNpmDependencies, null, 2));
+
+    var npm = (process.platform === "win32" ? "npm.cmd" : "npm");
+    var result = spawnSync(npm, ['install', '--production'], { cwd: './plugins/' + ctx.opts.plugin.id });
+    if (result.error) {
+      throw result.error;
+    }
+
+    createPluginInstalledFlag(ctx);
+  } catch (error) {
+    console.error('Error in beforePluginInstallHook:', error instanceof Error ? error.message : String(error));
+    process.exit(1);
   }
-
-  console.log('Installing dependency packages: ');
-  console.log(JSON.stringify(pluginNpmDependencies, null, 2));
-
-  var npm = (process.platform === "win32" ? "npm.cmd" : "npm");
-  var result = spawnSync(npm, ['install', '--production'], { cwd: './plugins/' + ctx.opts.plugin.id });
-  if (result.error) {
-    throw result.error;
-  }
-
-  createPluginInstalledFlag(ctx);
 };
