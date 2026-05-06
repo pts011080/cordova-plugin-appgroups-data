@@ -86,12 +86,27 @@ ConfigXmlHelper.prototype.getProjectName = function() {
 function getCordovaConfigParser(configFilePath) {
   var ConfigParser;
 
-  // If we are running Cordova 5.4 or abova - use parser from cordova-common.
-  // Otherwise - from cordova-lib.
+  // Modern cordova-common (v4+) exports ConfigParser from main entry point.
+  // Older versions required internal sub-paths which are now blocked by package exports in Node.js v22.
   try {
-    ConfigParser = context.requireCordovaModule('cordova-common/src/ConfigParser/ConfigParser');
-  } catch (e) {
-    ConfigParser = context.requireCordovaModule('cordova-lib/src/configparser/ConfigParser')
+    var cordovaCommon = context.requireCordovaModule('cordova-common');
+    ConfigParser = cordovaCommon.ConfigParser;
+  } catch (e) {}
+
+  if (!ConfigParser) {
+    try {
+      ConfigParser = context.requireCordovaModule('cordova-common/src/ConfigParser/ConfigParser');
+    } catch (e) {}
+  }
+
+  if (!ConfigParser) {
+    try {
+      ConfigParser = context.requireCordovaModule('cordova-lib/src/configparser/ConfigParser');
+    } catch (e) {}
+  }
+
+  if (!ConfigParser) {
+    throw new Error('Could not load ConfigParser from cordova-common or cordova-lib');
   }
 
   return new ConfigParser(configFilePath);
